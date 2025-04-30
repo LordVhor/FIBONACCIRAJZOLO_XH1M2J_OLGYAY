@@ -23,6 +23,6 @@ function GetFibonacci(iteration)
 
 
 
-document.getElementById("sendButton").addEventListener("click", GetFibonacci(document.getElementById('fibonacciInput').value));
+document.getElementById("sendButton").addEventListener("click", () => GetFibonacci(document.getElementById('fibonacciInput').value));
 
 
