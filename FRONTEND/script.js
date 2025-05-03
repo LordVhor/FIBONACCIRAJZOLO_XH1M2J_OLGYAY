@@ -1,5 +1,5 @@
 let fibonacci;
-
+let maxSize = 500;
 function GetFibonacci(iteration)
 {
     fetch('https://localhost:44342/api/Fibonacci', 
@@ -25,7 +25,7 @@ function GenerateSquares(sequenceArray)
 {
     let container = document.createElement("div");
     
-    let ratio = 300 / sequenceArray[sequenceArray.length-1]
+    let ratio = maxSize / sequenceArray[sequenceArray.length-1]
     for (let i = 0; i < sequenceArray.length; i++) 
     {
         let square = document.createElement("canvas");
@@ -46,12 +46,13 @@ function PositionGenerator(sequenceArray)
 {
     let positions = [];
     let dir = 0;
-    const unit = 300/sequenceArray[sequenceArray.length-1];
+    const unit = maxSize/sequenceArray[sequenceArray.length-1];
     let x = 0;
     let y = 0;
     for (let i = sequenceArray.length-1; i >= 1 ; i--) 
     {
         positions.push([x,y]);
+        console.log(x + " ; " + y)
         let size = sequenceArray[i] * unit;
         let nextsize = sequenceArray[i-1] * unit;
         switch (dir % 4) 
@@ -94,7 +95,7 @@ function ArangeSquares(fibonacci, container)
 
 function FillWithNumbers(fibonacci, container)
 {
-    let ratio = 300 / fibonacci.sequenceArray[fibonacci.sequenceArray.length - 1];
+    let ratio = maxSize / fibonacci.sequenceArray[fibonacci.sequenceArray.length - 1];
 
     for (let i = 0; i < fibonacci.sequenceArray.length; i++) 
     {
@@ -106,12 +107,51 @@ function FillWithNumbers(fibonacci, container)
         if (size >= 20) 
         {
             let ctx = square.getContext("2d");
-            ctx.font = `${Math.floor(size / 3)}px Arial`;
+            ctx.font = `${Math.floor(size / 6)}px Arial`;
             ctx.fillStyle = "black";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             ctx.fillText(fibonacci.sequenceArray[i], size / 2, size / 2);
         }
+    }
+}
+
+function DrawFibonacciSpiral(fibonacci,container)
+{
+    let j = 0;
+    let ratio = maxSize / fibonacci.sequenceArray[fibonacci.sequenceArray.length - 1];
+
+    
+    for (let i = fibonacci.sequenceArray.length; i >= 1 ; i--) 
+    {
+        let square = container.querySelector("#square" + i);
+        if (!square) continue;
+
+        let size = fibonacci.sequenceArray[i] * ratio;
+
+        var ctx = square.getContext("2d");
+        ctx.beginPath();
+        switch (j % 4) 
+        {
+            case 0:                
+                ctx.arc(size,size,size,0,2*Math.PI);
+                break;
+            case 1:
+                ctx.arc(0,size,size,0,2*Math.PI);
+                break;
+            case 2:
+                ctx.arc(0,0,size,0,2*Math.PI);
+                break;
+            case 3: 
+                ctx.arc(size,0,size,0,2*Math.PI);               
+                break;
+        }
+        ctx.stroke();
+        j += 1;
+        
+        
+
+        
     }
 }
 
@@ -124,6 +164,7 @@ function FibonacciDrawer(fibonacci)
     container.appendChild(GenerateSquares(fibonacci.sequenceArray));
     ArangeSquares(fibonacci,container);
     FillWithNumbers(fibonacci,container);
+    DrawFibonacciSpiral(fibonacci,container);
 }
 
 document.getElementById("sendButton").addEventListener("click", () => GetFibonacci(document.getElementById('fibonacciInput').value));
