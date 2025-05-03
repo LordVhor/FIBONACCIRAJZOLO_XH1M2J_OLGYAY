@@ -28,8 +28,8 @@ function GenerateSquares(sequenceArray)
     let ratio = 300 / sequenceArray[sequenceArray.length-1]
     for (let i = 0; i < sequenceArray.length; i++) 
     {
-        let square = document.createElement("canvas")
-        square.id = "square" + sequenceArray[i];
+        let square = document.createElement("canvas");
+        square.id = "square" + i;
         square.width=sequenceArray[i]*ratio;
         square.height=sequenceArray[i]*ratio;
         square.style.backgroundColor= "sandybrown";
@@ -42,6 +42,40 @@ function GenerateSquares(sequenceArray)
     return container
 }
 
+function PositionGenerator(sequenceArray)
+{
+    let positions = [];
+    let dir = 0;
+    const unit = 300/sequenceArray[sequenceArray.length-1];
+    let x = 0;
+    let y = 0;
+    for (let i = sequenceArray.length-1; i >= 1 ; i--) 
+    {
+        positions.push([x,y]);
+        let size = sequenceArray[i] * unit;
+        let nextsize = sequenceArray[i-1] * unit;
+        switch (dir % 4) 
+        {
+            case 0: 
+                x += size;
+                break;
+            case 1: 
+                y += size;
+                x += size - nextsize
+                break;
+            case 2: 
+                x -= nextsize;
+                y += size - nextsize
+                break;
+            case 3: 
+                y -= nextsize;
+                break;
+        }
+        dir += 1;
+    };
+    return positions;
+}
+
 
 
 
@@ -51,6 +85,7 @@ function FibonacciDrawer(fibonacci)
     let container = document.getElementById("container");
     container.innerHTML="";
     container.appendChild(GenerateSquares(fibonacci.sequenceArray));
+    
 }
 
 document.getElementById("sendButton").addEventListener("click", () => GetFibonacci(document.getElementById('fibonacciInput').value));
