@@ -76,6 +76,21 @@ function PositionGenerator(sequenceArray)
     return positions;
 }
 
+function ArangeSquares(fibonacci, container)
+{
+    container.style.position = "relative";
+    positions = PositionGenerator(fibonacci.sequenceArray);
+    let j = 0;
+    for (let i = fibonacci.sequenceArray.length-1; i >= 1 ; i--) 
+    {
+        let square = document.getElementById("square"+i);
+        square.style.position = "absolute";
+        square.style.left = positions[j][0] + 'px';
+        square.style.top = positions[j][1] + 'px';
+
+        j +=1 ;
+    };
+}
 
 
 
@@ -85,7 +100,7 @@ function FibonacciDrawer(fibonacci)
     let container = document.getElementById("container");
     container.innerHTML="";
     container.appendChild(GenerateSquares(fibonacci.sequenceArray));
-    
+    ArangeSquares(fibonacci,container);
 }
 
 document.getElementById("sendButton").addEventListener("click", () => GetFibonacci(document.getElementById('fibonacciInput').value));
