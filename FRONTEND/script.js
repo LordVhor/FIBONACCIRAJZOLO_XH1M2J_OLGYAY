@@ -16,7 +16,7 @@ function GetFibonacci(iteration)
         {
             fibonacci=data;
             console.log(fibonacci.sequenceArray); 
-            FibonacciDrawer(fibonacci);
+            AfterResposnse(fibonacci)
         })
         .catch(error => console.error('Error:', error));
 }
@@ -217,31 +217,60 @@ function WriteNumbers(sequenceArray)
 {
     let numbers = document.getElementById("numbers");
     numbers.style.width=2*maxSize + "px";
-    numbers.innerHTML= `The numbers for the ${sequenceArray.length}th iterations are as follows:` + "<br>";
+    numbers.innerHTML= `The numbers for the ${sequenceArray.length}th iterations are as follows:`;
+    let sequence = document.createElement("p");
     for (let i = 0; i < sequenceArray.length-1; i++) 
     {
-        numbers.innerHTML+= sequenceArray[i] +", " ;
+        sequence.innerHTML+= sequenceArray[i] +", " ;
         
     }
-    numbers.innerHTML += sequenceArray[sequenceArray.length-1];
+    sequence.innerHTML += sequenceArray[sequenceArray.length-1];
+    numbers.appendChild(sequence);
+
+    let spiralDrawerButton = document.getElementById("spiralDrawerButton");
+    spiralDrawerButton.disabled=true;
 }
 
 
 
 
-function FibonacciDrawer(fibonacci)
+function FibonacciSquaresDrawer(fibonacci,container)
+{
+    
+    container.appendChild(GenerateSquares(fibonacci.sequenceArray));
+    ArangeSquares(fibonacci,container);
+    FillWithNumbers(fibonacci,container);
+    let spiralDrawerButton = document.getElementById("spiralDrawerButton");
+    spiralDrawerButton.disabled=false;
+}
+
+
+function AfterResposnse(fibonacci)
 {
     let container = document.getElementById("container");
     container.innerHTML="";
     container.style.width = maxSize*2 + "px";
     container.style.height = maxSize + "px";
-    container.appendChild(GenerateSquares(fibonacci.sequenceArray));
-    ArangeSquares(fibonacci,container);
+
     WriteNumbers(fibonacci.sequenceArray);
-    FillWithNumbers(fibonacci,container);
-    DrawFibonacciSpiral(fibonacci,container);
+    
+    let illustrations = document.getElementById("illustrations");
+
+    let squareGeneratorButton = document.getElementById("squareGeneratorButton");
+    squareGeneratorButton.addEventListener("click", () => FibonacciSquaresDrawer(fibonacci,container));
+    illustrations.appendChild(squareGeneratorButton);
+    squareGeneratorButton.disabled = false;
+
+    let spiralDrawerButton = document.getElementById("spiralDrawerButton");
+    spiralDrawerButton.addEventListener("click", () => DrawFibonacciSpiral(fibonacci,container))
+    illustrations.appendChild(spiralDrawerButton);
+}
+function Run()
+{
+    document.getElementById("sendButton").addEventListener("click", () => GetFibonacci(document.getElementById('fibonacciInput').value));
+
 }
 
-document.getElementById("sendButton").addEventListener("click", () => GetFibonacci(document.getElementById('fibonacciInput').value));
+Run();
 
 
