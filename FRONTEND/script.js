@@ -32,7 +32,9 @@ function GenerateSquares(sequenceArray)
         square.id = "square" + i;
         square.width=sequenceArray[i]*ratio;
         square.height=sequenceArray[i]*ratio;
-        square.style.backgroundColor= "sandybrown";
+        let lightness = 20 + (i / sequenceArray.length) * 50;
+        square.style.backgroundColor = `hsl(40, 97%, ${lightness}%)`;
+
         square.style.border= "1px solid black";
 
         container.appendChild(square);
@@ -106,7 +108,7 @@ function FillWithNumbers(fibonacci, container)
         if (size >= 20) 
         {
             let ctx = square.getContext("2d");
-            ctx.font = `${Math.floor(size / 6)}px Arial`;
+            ctx.font = `lighter ${Math.floor(size / 6)}px Arial`;
             ctx.fillStyle = "black";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
@@ -175,11 +177,16 @@ function DrawFibonacciSpiral(fibonacci, container)
                 break;
         }
 
-        const step = 0.05;
+        const step = fibonacci.logTime/80;
 
         function Animation()
         {
             ctx.clearRect(0, 0, square.width, square.height);
+
+            
+            ctx.strokeStyle = "#4282c2";
+            ctx.lineWidth = 5;
+
             ctx.beginPath();
             ctx.arc(cx, cy, size, startAngle, varAngle, true);
             FillWithNumbers(fibonacci,container);

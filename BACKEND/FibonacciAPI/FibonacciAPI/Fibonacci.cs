@@ -28,6 +28,6 @@ public class Fibonacci : IFibonacci
                 sequenceArray[i] = sequenceArray[i - 1] + sequenceArray[i-2];
             }
         }
-        logTime = 1 + (int)Math.Log10(size);
+        logTime = 1 + (int)Math.Log2(size);
     }
 }
