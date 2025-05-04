@@ -25,6 +25,7 @@ function GenerateSquares(sequenceArray)
 {
     let container = document.createElement("div");
     
+    
     let ratio = maxSize / sequenceArray[sequenceArray.length-1]
     for (let i = 0; i < sequenceArray.length; i++) 
     {
@@ -212,7 +213,18 @@ function DrawFibonacciSpiral(fibonacci, container)
     DrawNextPartOfSpiral();
 }
 
-
+function WriteNumbers(sequenceArray)
+{
+    let numbers = document.getElementById("numbers");
+    numbers.style.width=2*maxSize + "px";
+    numbers.innerHTML= `The numbers for the ${sequenceArray.length}th iterations are as follows:` + "<br>";
+    for (let i = 0; i < sequenceArray.length-1; i++) 
+    {
+        numbers.innerHTML+= sequenceArray[i] +", " ;
+        
+    }
+    numbers.innerHTML += sequenceArray[sequenceArray.length-1];
+}
 
 
 
@@ -221,8 +233,11 @@ function FibonacciDrawer(fibonacci)
 {
     let container = document.getElementById("container");
     container.innerHTML="";
+    container.style.width = maxSize*2 + "px";
+    container.style.height = maxSize + "px";
     container.appendChild(GenerateSquares(fibonacci.sequenceArray));
     ArangeSquares(fibonacci,container);
+    WriteNumbers(fibonacci.sequenceArray);
     FillWithNumbers(fibonacci,container);
     DrawFibonacciSpiral(fibonacci,container);
 }
