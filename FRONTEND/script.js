@@ -115,39 +115,96 @@ function FillWithNumbers(fibonacci, container)
     }
 }
 
-function DrawFibonacciSpiral(fibonacci,container)
+function DrawFibonacciSpiral(fibonacci, container)
 {
-    let j = fibonacci.sequenceArray.length +2;
+    let j = fibonacci.sequenceArray.length + 2;
     let ratio = maxSize / fibonacci.sequenceArray[fibonacci.sequenceArray.length - 1];
- 
-    for (let i = 1; i <fibonacci.sequenceArray.length ; i++) 
+
+    let i = 1;
+
+    function DrawNextPartOfSpiral()
     {
+        if (i >= fibonacci.sequenceArray.length) return;
+
         let square = container.querySelector("#square" + i);
-        if (!square) continue;
+        if (!square) 
+        {
+            i++;
+            DrawNextPartOfSpiral();
+            return;
+        }
 
         let size = fibonacci.sequenceArray[i] * ratio;
+        let ctx = square.getContext("2d");
 
-        var ctx = square.getContext("2d");
-        ctx.beginPath();
-        switch (j % 4) 
+        let startAngle;
+        let endAngle;
+        let varAngle;
+
+        let cx, cy;
+
+        switch (j % 4)
         {
-            case 0:                
-                ctx.arc(size,size,size,0,2*Math.PI);
+            case 0: 
+                cx = size;
+                cy = size;
+                startAngle = 1.5 * Math.PI;
+                endAngle = 1 * Math.PI;
+                varAngle = 1.5 * Math.PI;
                 break;
             case 1:
-                ctx.arc(0,size,size,0,2*Math.PI);
+                cx = 0;
+                cy = size;
+                startAngle = 2 * Math.PI;
+                endAngle = 1.5 * Math.PI;
+                varAngle = 2 * Math.PI;
                 break;
             case 2:
-                ctx.arc(0,0,size,0,2*Math.PI);
+                cx = 0;
+                cy = 0;
+                startAngle = 0.5 * Math.PI;
+                endAngle = 0 * Math.PI;
+                varAngle = 0.5 * Math.PI;
                 break;
-            case 3: 
-                ctx.arc(size,0,size,0,2*Math.PI);               
+            case 3:
+                cx = size;
+                cy = 0;
+                startAngle = 1 * Math.PI;
+                endAngle = 0.5 * Math.PI;
+                varAngle = 1 * Math.PI;
                 break;
         }
-        ctx.stroke();
-        j -= 1;
+
+        const step = 0.05;
+
+        function Animation()
+        {
+            ctx.clearRect(0, 0, square.width, square.height);
+            ctx.beginPath();
+            ctx.arc(cx, cy, size, startAngle, varAngle, true);
+            FillWithNumbers(fibonacci,container);
+            ctx.stroke();
+
+            if (varAngle > endAngle)
+            {
+                varAngle -= step;
+                requestAnimationFrame(Animation);
+            }
+            else
+            {
+                i++;
+                j--;
+                DrawNextPartOfSpiral();
+            }
+        }
+
+        Animation();
+        
     }
+
+    DrawNextPartOfSpiral();
 }
+
 
 
 
