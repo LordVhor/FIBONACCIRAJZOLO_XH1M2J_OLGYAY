@@ -52,7 +52,6 @@ function PositionGenerator(sequenceArray)
     for (let i = sequenceArray.length-1; i >= 1 ; i--) 
     {
         positions.push([x,y]);
-        console.log(x + " ; " + y)
         let size = sequenceArray[i] * unit;
         let nextsize = sequenceArray[i-1] * unit;
         switch (dir % 4) 
@@ -118,11 +117,10 @@ function FillWithNumbers(fibonacci, container)
 
 function DrawFibonacciSpiral(fibonacci,container)
 {
-    let j = 0;
+    let j = fibonacci.sequenceArray.length +2;
     let ratio = maxSize / fibonacci.sequenceArray[fibonacci.sequenceArray.length - 1];
-
-    
-    for (let i = fibonacci.sequenceArray.length; i >= 1 ; i--) 
+ 
+    for (let i = 1; i <fibonacci.sequenceArray.length ; i++) 
     {
         let square = container.querySelector("#square" + i);
         if (!square) continue;
@@ -147,13 +145,11 @@ function DrawFibonacciSpiral(fibonacci,container)
                 break;
         }
         ctx.stroke();
-        j += 1;
-        
-        
-
-        
+        j -= 1;
     }
 }
+
+
 
 
 
