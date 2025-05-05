@@ -102,6 +102,7 @@ function FillWithNumbers(fibonacci, container)
     for (let i = 0; i < fibonacci.sequenceArray.length; i++) 
     {
         let square = container.querySelector("#square" + i);
+        
         if (!square) continue;
 
         let size = fibonacci.sequenceArray[i] * ratio;
@@ -120,6 +121,7 @@ function FillWithNumbers(fibonacci, container)
 
 function DrawFibonacciSpiral(fibonacci, container)
 {
+    
     let j = fibonacci.sequenceArray.length + 2;
     let ratio = maxSize / fibonacci.sequenceArray[fibonacci.sequenceArray.length - 1];
 
@@ -225,6 +227,7 @@ function WriteNumbers(sequenceArray)
         
     }
     sequence.innerHTML += sequenceArray[sequenceArray.length-1];
+    //sequence.classList.add("list")
     numbers.appendChild(sequence);
 
     let spiralDrawerButton = document.getElementById("spiralDrawerButton");
@@ -236,7 +239,7 @@ function WriteNumbers(sequenceArray)
 
 function FibonacciSquaresDrawer(fibonacci,container)
 {
-    
+    container.innerHTML="";
     container.appendChild(GenerateSquares(fibonacci.sequenceArray));
     ArangeSquares(fibonacci,container);
     FillWithNumbers(fibonacci,container);
@@ -254,21 +257,18 @@ function AfterResposnse(fibonacci)
 
     WriteNumbers(fibonacci.sequenceArray);
     
-    let illustrations = document.getElementById("illustrations");
+    
 
     let squareGeneratorButton = document.getElementById("squareGeneratorButton");
-    squareGeneratorButton.addEventListener("click", () => FibonacciSquaresDrawer(fibonacci,container));
-    illustrations.appendChild(squareGeneratorButton);
     squareGeneratorButton.disabled = false;
 
-    let spiralDrawerButton = document.getElementById("spiralDrawerButton");
-    spiralDrawerButton.addEventListener("click", () => DrawFibonacciSpiral(fibonacci,container))
-    illustrations.appendChild(spiralDrawerButton);
+    
 }
 function Run()
 {
     document.getElementById("sendButton").addEventListener("click", () => GetFibonacci(document.getElementById('fibonacciInput').value));
-
+    document.getElementById("squareGeneratorButton").addEventListener("click", () => FibonacciSquaresDrawer(fibonacci,container));
+    document.getElementById("spiralDrawerButton").addEventListener("click", () => DrawFibonacciSpiral(fibonacci,container));
 }
 
 Run();
