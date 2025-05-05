@@ -292,13 +292,29 @@ function EnterListener()
     });
 }
 
+function Limit()
+{
+    const input = document.getElementById("fibonacciInput");
+    const calculate = document.getElementById("sendButton");
 
-
+    input.addEventListener("input", () => 
+    {
+        const value = parseInt(input.value);
+        if (!isNaN(value) && value >= 0 && value <= 47) 
+        {
+            calculate.disabled = false;
+        } 
+        else 
+        {
+            calculate.disabled = true;
+        }
+    });
+}
 
 function Run()
 {
     EventListenerForButtons();
-    
+    Limit();
 }
 
 Run();
