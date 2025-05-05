@@ -1,5 +1,6 @@
 let fibonacci;
 let maxSize = 500;
+
 function GetFibonacci(iteration)
 {
     fetch('https://localhost:44342/api/Fibonacci', 
@@ -234,9 +235,6 @@ function WriteNumbers(sequenceArray)
     spiralDrawerButton.disabled=true;
 }
 
-
-
-
 function FibonacciSquaresDrawer(fibonacci,container)
 {
     container.innerHTML="";
@@ -248,7 +246,6 @@ function FibonacciSquaresDrawer(fibonacci,container)
     let spiralDrawerButton = document.getElementById("spiralDrawerButton");
     spiralDrawerButton.disabled=false;
 }
-
 
 function AfterResposnse(fibonacci)
 {
@@ -272,11 +269,36 @@ function AfterResposnse(fibonacci)
 
     
 }
-function Run()
+
+function EventListenerForButtons()
 {
     document.getElementById("sendButton").addEventListener("click", () => GetFibonacci(document.getElementById('fibonacciInput').value));
     document.getElementById("squareGeneratorButton").addEventListener("click", () => FibonacciSquaresDrawer(fibonacci,container));
     document.getElementById("spiralDrawerButton").addEventListener("click", () => DrawFibonacciSpiral(fibonacci,container));
+    EnterListener();
+}
+
+function EnterListener()
+{
+    const input = document.getElementById("fibonacciInput");
+    const calculate = document.getElementById("sendButton");
+
+    input.addEventListener("keypress", function(event) 
+    {
+        if (event.key === "Enter" && !calculate.disabled) 
+        {
+            calculate.click();
+        }
+    });
+}
+
+
+
+
+function Run()
+{
+    EventListenerForButtons();
+    
 }
 
 Run();
