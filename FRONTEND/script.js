@@ -26,7 +26,7 @@ function GenerateSquares(sequenceArray)
     let container = document.createElement("div");
     
     
-    let ratio = maxSize / sequenceArray[sequenceArray.length-1]
+    let ratio = maxSize / sequenceArray[sequenceArray.length-1];
     for (let i = 0; i < sequenceArray.length; i++) 
     {
         let square = document.createElement("canvas");
@@ -227,7 +227,7 @@ function WriteNumbers(sequenceArray)
         
     }
     sequence.innerHTML += sequenceArray[sequenceArray.length-1];
-    //sequence.classList.add("list")
+    sequence.classList.add("list");
     numbers.appendChild(sequence);
 
     let spiralDrawerButton = document.getElementById("spiralDrawerButton");
@@ -240,9 +240,11 @@ function WriteNumbers(sequenceArray)
 function FibonacciSquaresDrawer(fibonacci,container)
 {
     container.innerHTML="";
+
     container.appendChild(GenerateSquares(fibonacci.sequenceArray));
     ArangeSquares(fibonacci,container);
     FillWithNumbers(fibonacci,container);
+
     let spiralDrawerButton = document.getElementById("spiralDrawerButton");
     spiralDrawerButton.disabled=false;
 }
@@ -252,8 +254,14 @@ function AfterResposnse(fibonacci)
 {
     let container = document.getElementById("container");
     container.innerHTML="";
-    container.style.width = maxSize*2 + "px";
-    container.style.height = maxSize + "px";
+
+
+    let lastValue = fibonacci.sequenceArray[fibonacci.sequenceArray.length-1];
+    let previousValue = fibonacci.sequenceArray[fibonacci.sequenceArray.length-2];
+    let ratio = maxSize / lastValue;
+
+    container.style.width = (lastValue + previousValue) * ratio + "px";
+    container.style.height = lastValue*ratio + "px";
 
     WriteNumbers(fibonacci.sequenceArray);
     
